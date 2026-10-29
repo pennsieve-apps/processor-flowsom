@@ -1,0 +1,135 @@
+cff-version: "1.2.0"
+message: If you use this app, please cite it and the works it builds on, listed under references.
+type: software
+title: FlowSOM Clustering
+abstract: 'Clusters the cells of transformed FCS files with FlowSOM, following the Nature Protocols practice:
+  a self-organising map trained on per-sample subsamples, metaclustered, with every event then mapped
+  onto it. Writes per-sample cluster counts and medians, metacluster labels from a marker table, the model
+  and figures.'
+authors:
+- name: Pennsieve (University of Pennsylvania)
+repository-code: https://github.com/pennsieve-apps/processor-flowsom
+license: Apache-2.0
+keywords:
+- cytometry
+- flow-cytometry
+- fcs
+- clustering
+- flowsom
+- immunology
+references:
+- type: article
+  title: 'FlowSOM: Using self-organizing maps for visualization and interpretation of cytometry data'
+  authors:
+  - family-names: Van Gassen
+    given-names: Sofie
+  - family-names: Callebaut
+    given-names: Britt
+  - family-names: Van Helden
+    given-names: Mary J.
+  - family-names: Lambrecht
+    given-names: Bart N.
+  - family-names: Demeester
+    given-names: Piet
+  - family-names: Dhaene
+    given-names: Tom
+  - family-names: Saeys
+    given-names: Yvan
+  year: 2015
+  journal: Cytometry Part A
+  volume: 87
+  issue: '7'
+  start: '636'
+  end: '645'
+  doi: 10.1002/cyto.a.22625
+- type: article
+  title: Analyzing high-dimensional cytometry data using FlowSOM
+  authors:
+  - family-names: Quintelier
+    given-names: Katrien
+  - family-names: Couckuyt
+    given-names: Artuur
+  - family-names: Emmaneel
+    given-names: Annelies
+  - family-names: Aerts
+    given-names: Joachim
+  - family-names: Saeys
+    given-names: Yvan
+  - family-names: Van Gassen
+    given-names: Sofie
+  year: 2021
+  journal: Nature Protocols
+  volume: 16
+  issue: '8'
+  start: '3775'
+  end: '3801'
+  doi: 10.1038/s41596-021-00550-0
+- type: article
+  title: 'ConsensusClusterPlus: a class discovery tool with confidence assessments and item tracking'
+  authors:
+  - family-names: Wilkerson
+    given-names: Matthew D.
+  - family-names: Hayes
+    given-names: D. Neil
+  year: 2010
+  journal: Bioinformatics
+  volume: 26
+  issue: '12'
+  start: '1572'
+  end: '1573'
+  doi: 10.1093/bioinformatics/btq170
+- type: article
+  title: 'flowCore: a Bioconductor package for high throughput flow cytometry'
+  authors:
+  - family-names: Hahne
+    given-names: Florian
+  - family-names: LeMeur
+    given-names: Nolwenn
+  - family-names: Brinkman
+    given-names: Ryan R
+  - family-names: Ellis
+    given-names: Byron
+  - family-names: Haaland
+    given-names: Perry
+  - family-names: Sarkar
+    given-names: Deepayan
+  - family-names: Spidlen
+    given-names: Josef
+  - family-names: Strain
+    given-names: Errol
+  - family-names: Gentleman
+    given-names: Robert
+  year: 2009
+  journal: BMC Bioinformatics
+  volume: 10
+  issue: '1'
+  start: '106'
+  doi: 10.1186/1471-2105-10-106
+- type: software
+  title: FlowSOM
+  authors:
+  - family-names: Van Gassen
+    given-names: Sofie
+  - family-names: Callebaut
+    given-names: Britt
+  - family-names: Saeys
+    given-names: Yvan
+  year: 2017
+  doi: 10.18129/B9.bioc.FlowSOM
+  url: https://bioconductor.org/packages/FlowSOM
+- type: data
+  title: 'CytoBatchFlagR: Spectral flow cytometry dataset'
+  authors:
+  - family-names: Koenig
+    given-names: Zachary
+  - family-names: Andorf
+    given-names: Sandra
+  - family-names: Tilburgs
+    given-names: Tamara
+  - family-names: Eswar
+    given-names: Shruti
+  year: 2025
+  publisher:
+    name: Zenodo
+  doi: 10.5281/zenodo.15388817
+  license: CC-BY-4.0
