@@ -1,0 +1,133 @@
+# yaml-language-server: $schema=https://schemas.pennsieve.io/app-manifest/v1.json
+schemaVersion: "1.0"
+application:
+  name: FlowSOM Clustering
+  description: >-
+    Clusters the cells of transformed FCS files with FlowSOM (Van Gassen et al. 2015),
+    following the Nature Protocols practice (Quintelier et al. 2021): a self-organising map
+    is built on an aggregate of equal, seeded per-sample subsamples, metaclustered, and every
+    event of every file is then mapped onto it, one file at a time. Writes per-sample
+    metacluster and cluster counts, metacluster medians (overall and per sample, for
+    differential abundance and differential state tests), metacluster labels from a
+    transparent marker table (CD4 T, CD8 T, B, NK, ...), the model, a heatmap and the star
+    tree, and a per-sample cell subsample for UMAP.
+  type: processor
+  tags:
+    - cytometry
+    - flow-cytometry
+    - fcs
+    - clustering
+    - flowsom
+    - immunology
+runtime:
+  cpu: 2048
+  memory: 8192
+  computeTypes:
+    - standard
+  timeoutSeconds: 3600
+parameters:
+  - name: XDIM
+    type: integer
+    label: SOM grid width
+    description: Width of the self-organising map grid (number of clusters = XDIM x YDIM).
+    defaultValue: 10
+    min: 2
+    max: 50
+  - name: YDIM
+    type: integer
+    label: SOM grid height
+    description: Height of the self-organising map grid.
+    defaultValue: 10
+    min: 2
+    max: 50
+  - name: N_METACLUSTERS
+    type: integer
+    label: Metaclusters
+    description: Number of metaclusters the SOM nodes are grouped into (consensus hierarchical clustering).
+    defaultValue: 20
+    min: 2
+    max: 200
+  - name: CELLS_PER_SAMPLE
+    type: integer
+    label: Training cells per sample
+    description: Events drawn at random (seeded) from each sample to build the SOM; every event is mapped afterwards.
+    defaultValue: 20000
+    min: 100
+  - name: CELLS_FOR_PLOT
+    type: integer
+    label: Cells per sample for plotting
+    description: Size of the seeded per-sample subsample written to cells/cells.csv.gz (UMAP and plots).
+    defaultValue: 5000
+    min: 0
+  - name: SEED
+    type: integer
+    description: Seed for every random step (subsampling, SOM, metaclustering).
+    defaultValue: 42
+  - name: MARKERS
+    type: string
+    label: Clustering markers
+    description: >-
+      Comma-separated marker names (panel 'marker', or channel names) to cluster on. Empty: the
+      markers panel.csv marks clustering=true.
+    defaultValue: ""
+  - name: CELL_TYPE_RULES
+    type: string
+    label: Cell type rules
+    description: >-
+      JSON marker table for naming metaclusters: {"high":0.5,"low":0.3,"min_range":0.5,"rules":[{"label":"CD4 T","markers":{"CD3":"+","CD4":"+","CD8":"-"}}, ...]}
+      or a bare list of rules. Conditions are '+', '-' or 'int' on each marker's metacluster median scaled
+      0-1 across metaclusters; the first rule that fully matches names the metacluster, else 'unassigned'.
+      Empty: the built-in table for CD45+CD14- human blood leukocytes (see README).
+    defaultValue: ""
+  - name: WRITE_FCS
+    type: boolean
+    label: Write FCS with clusters
+    description: Also write every FCS file with FlowSOM_cluster and FlowSOM_metacluster channels to the fcs output.
+    defaultValue: false
+# Each input in its own folder when linked (placement: subfolder); without links the
+# app finds *.fcs, samples.csv and panel.csv anywhere under INPUT_DIR.
+inputs:
+  - name: fcs
+    description: <sample_id>.fcs per sample, FCS 3.1 with marker channels arcsinh-transformed (fcs-prep, after QC by peacoqc / cleanet).
+    mediaTypes:
+      - application/vnd.isac.fcs
+    placement: subfolder
+    required: true
+  - name: metadata
+    description: >-
+      fcs-prep's metadata: panel.csv (channel, marker, type, clustering, state) picks the clustering
+      markers; samples.csv is optional here. Without panel.csv every channel with a marker name
+      ($PnS) clusters.
+    mediaTypes:
+      - text/csv
+      - application/json
+    placement: subfolder
+    required: false
+outputs:
+  - name: clusters
+    description: >-
+      counts.csv (sample_id, metacluster, label, n, frac; long, zeros included), cluster_counts.csv
+      (sample_id, cluster, metacluster, n, frac), medians.csv (metacluster x marker, all events),
+      medians_by_sample.csv (sample_id, metacluster, label, marker, median, n), labels.csv
+      (metacluster, label, n_cells, frac, rule, profile), model.rds (FlowSOM object without the
+      training events), heatmap.png, star_tree.png, provenance.json.
+    mediaTypes:
+      - text/csv
+      - image/png
+      - application/x-rds
+      - application/json
+  - name: cells
+    description: >-
+      cells.csv.gz, a seeded subsample of up to CELLS_FOR_PLOT events per sample (sample_id, cluster,
+      metacluster, label, then one column per marker by marker name), and cells.json naming the
+      clustering and state markers. Input of cytometry-umap.
+    mediaTypes:
+      - application/gzip
+      - application/json
+  - name: fcs
+    description: >-
+      With WRITE_FCS=true, <sample_id>.fcs with every event and two extra channels, FlowSOM_cluster
+      and FlowSOM_metacluster (keyword PENNSIEVE_FLOWSOM). Otherwise only provenance.json.
+    mediaTypes:
+      - application/vnd.isac.fcs
+      - application/json

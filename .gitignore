@@ -1,0 +1,19 @@
+# local data: fixtures, outputs
+data/
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+Rplots.pdf
+
+# Python (fixture script)
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+
+# OS / editors
+.DS_Store
+.idea/
+*.swp

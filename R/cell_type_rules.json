@@ -1,0 +1,27 @@
+{
+  "description": "Built-in marker table for human peripheral blood leukocytes pre-gated CD45+CD14- (mostly T, B and NK cells, dendritic cells and basophils). A transparent heuristic, not a classifier: each metacluster's median (all events) is scaled per marker to 0-1 across the metaclusters (0 = lowest metacluster median, 1 = highest; a marker whose metacluster medians span less than min_range counts as negative everywhere). '+' needs a scaled value >= high, '-' needs <= low, 'int' needs a value in between, 'pos' needs > low ('+' or 'int'). Rules are tried in order; the first rule whose every condition holds names the metacluster, otherwise it is 'unassigned'. A rule naming a marker the data lacks is skipped.",
+  "high": 0.5,
+  "low": 0.3,
+  "min_range": 0.5,
+  "rules": [
+    {"label": "T/B doublet-like", "markers": {"CD3": "+", "CD19": "+"}},
+    {"label": "CD4 T CD25+FOXP3+ (Treg or activated)", "markers": {"CD3": "+", "CD4": "+", "CD8": "-", "CD25": "+", "FOXP3": "+"}},
+    {"label": "CD4 T CD45RA+", "markers": {"CD3": "+", "CD4": "+", "CD8": "-", "CD45RA": "+"}},
+    {"label": "CD4 T CD45RA-", "markers": {"CD3": "+", "CD4": "+", "CD8": "-", "CD45RA": "-"}},
+    {"label": "CD4 T", "markers": {"CD3": "+", "CD4": "+", "CD8": "-"}},
+    {"label": "CD8 T CD45RA+", "markers": {"CD3": "+", "CD8": "+", "CD4": "-", "CD45RA": "+"}},
+    {"label": "CD8 T CD45RA-", "markers": {"CD3": "+", "CD8": "+", "CD4": "-", "CD45RA": "-"}},
+    {"label": "CD8 T", "markers": {"CD3": "+", "CD8": "+", "CD4": "-"}},
+    {"label": "CD4+CD8+ T", "markers": {"CD3": "+", "CD4": "+", "CD8": "+"}},
+    {"label": "CD8dim T", "markers": {"CD3": "+", "CD4": "-", "CD8": "int"}},
+    {"label": "DN T (gd-like)", "markers": {"CD3": "+", "CD4": "-", "CD8": "-"}},
+    {"label": "B cells", "markers": {"CD3": "-", "CD19": "+"}},
+    {"label": "NK CD56bright", "markers": {"CD3": "-", "CD19": "-", "CD56": "+", "CD16": "-"}},
+    {"label": "NK CD56dim CD16+", "markers": {"CD3": "-", "CD19": "-", "CD16": "+", "HLADR": "-"}},
+    {"label": "NK CD56dim CD16int", "markers": {"CD3": "-", "CD19": "-", "CD56": "pos", "CD16": "int", "HLADR": "-"}},
+    {"label": "CD16+ HLA-DR+ (monocyte-like)", "markers": {"CD3": "-", "CD19": "-", "CD56": "-", "CD16": "+", "HLADR": "+"}},
+    {"label": "CD14+ HLA-DR+ (monocyte/DC-like)", "markers": {"CD3": "-", "CD19": "-", "CD14": "+", "HLADR": "pos"}},
+    {"label": "DC (HLA-DR+ lin-)", "markers": {"CD3": "-", "CD19": "-", "CD56": "-", "CD16": "-", "HLADR": "+"}},
+    {"label": "Basophil-like (HLA-DR- lin-)", "markers": {"CD3": "-", "CD19": "-", "CD56": "-", "CD16": "-", "HLADR": "-"}}
+  ]
+}

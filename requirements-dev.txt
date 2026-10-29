@@ -1,0 +1,3 @@
+# tests/make_fixture.py (the demo-data fixture); the app itself is R.
+numpy==2.3.4
+flowio==1.4.0

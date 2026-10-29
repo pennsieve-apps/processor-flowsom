@@ -1,0 +1,13 @@
+services:
+  processor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    image: processor-flowsom:dev
+    mem_limit: 4g
+    env_file:
+      - dev.env
+    volumes:
+      - ./data/fixture/demo20k:/data/input:ro
+      - ./data/output:/data/output
