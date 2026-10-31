@@ -14,7 +14,7 @@ The clustering/state flags below are a stand-in for fcs-prep's defaults: lineage
 markers cluster, functional markers are state markers; the gating markers CD45
 and CD14 (every event is CD45+CD14-) and CD163 do not cluster.
 
-  python -m tests.make_fixture <raw-dir> <out-dir> [--events 20000] [--seed 42]
+  python -m tests.make_fixture <raw-dir> <out-dir> [--events 20000] [--seed 42] [--sheet tests/demo-samples.csv]
 
 Needs numpy and flowio (requirements-dev.txt).
 """
@@ -67,10 +67,11 @@ def main() -> None:
     ap.add_argument("out_dir", type=Path)
     ap.add_argument("--events", type=int, default=20000, help="events per file (0 = all)")
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--sheet", type=Path, help="the sample sheet (default: <raw_dir>/samples.csv), e.g. tests/demo-samples.csv")
     args = ap.parse_args()
 
     sheet = {}
-    with open(args.raw_dir / "samples.csv", newline="") as fh:
+    with open(args.sheet or args.raw_dir / "samples.csv", newline="") as fh:
         for row in csv.DictReader(fh):
             sheet[row["file"]] = row
     fcs_dir = args.out_dir / "fcs"
