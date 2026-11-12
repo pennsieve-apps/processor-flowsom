@@ -1,5 +1,6 @@
 cff-version: "1.2.0"
-message: If you use this app, please cite it and the works it builds on, listed under references.
+message: >-
+  If you use this app, please cite the work it implements (preferred-citation), this release, and Pennsieve (RRID:SCR_021677); the other works it builds on are listed under references.
 type: software
 title: FlowSOM Clustering
 abstract: 'Clusters the cells of transformed FCS files with FlowSOM, following the Nature Protocols practice:
@@ -17,6 +18,32 @@ keywords:
 - clustering
 - flowsom
 - immunology
+# The work this app implements; the release report's "How to cite" puts it first.
+preferred-citation:
+  type: article
+  title: 'FlowSOM: Using self-organizing maps for visualization and interpretation of cytometry data'
+  authors:
+  - family-names: Van Gassen
+    given-names: Sofie
+  - family-names: Callebaut
+    given-names: Britt
+  - family-names: Van Helden
+    given-names: Mary J.
+  - family-names: Lambrecht
+    given-names: Bart N.
+  - family-names: Demeester
+    given-names: Piet
+  - family-names: Dhaene
+    given-names: Tom
+  - family-names: Saeys
+    given-names: Yvan
+  year: 2015
+  journal: Cytometry Part A
+  volume: 87
+  issue: '7'
+  start: '636'
+  end: '645'
+  doi: 10.1002/cyto.a.22625
 references:
 - type: article
   title: 'FlowSOM: Using self-organizing maps for visualization and interpretation of cytometry data'
